@@ -1,21 +1,20 @@
-const express = require("express");
-const app = express();
+var express = require("express");
+var app = express();
 require('dotenv').config({path: __dirname + '/.env'});
-const db = require("./database.js");
+var db = require("./database.js");
 const { getUsers, getUser, createUser, updateUser, deleteUser } = require('./controllers/userController');
-const bodyParser = require("body-parser");
 
+var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8000;
+var products = require('./routes/product.js');
 
-const products = require('./routes/product.js');
-
-// products endpoints
+// Products endpoints
 app.use('/api/product', products);
 
-// user endpoints
+// User endpoints
 app.get("/api/users", (req, res, next) => {
    getUsers(req, res);
 });
@@ -25,7 +24,7 @@ app.get("/api/user/:id", (req, res, next) => {
 });
 
 app.post("/api/user/", (req, res, next) => {
-    createUser(req, res);
+   createUser(req, res);
 });
 
 app.patch("/api/user/:id", (req, res, next) => {
@@ -38,11 +37,5 @@ app.delete("/api/user/:id", (req, res, next) => {
 
 // Start server
 app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
-
-
-// Start server
-app.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`)
+   console.log(`Server running on port ${port}`);
 });
